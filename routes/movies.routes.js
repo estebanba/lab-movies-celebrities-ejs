@@ -1,32 +1,36 @@
 const router = require('express').Router()
-
-const MovieModel = require('../models/Movie.model')
+const Movie = require('../models/Movie.model')
 const Celebrity = require('../models/Celebrity.model')
 
-router.get("/movies", async (req, res, next) => {
-    const allMovies = await MovieModel.find()
-    res.render("../views/movies/movies.ejs", {allMovies})
+router.get("/", async (req, res) => {
+    const allMovies = await Movie.find()
+    res.render("movies/movies", {allMovies})
  })
  
- router.get("/movies/create", async(req, res, next) => {
-    try {
+router.get("/create", async (req, res) => {
     const castInfo =  await Celebrity.find()
-    //console.log(castInfo, "the cast is")
-     res.render("../views/movies/new-movies", {castInfo})
-    } catch (err) {
-        console.log ("rendering the new-movies-page failed", err)
-    }
+    res.render("movies/new-movies", { castInfo })
  })
  
- router.post("/movies/create", async (req, res, next) => {
+ router.post("/create", async (req, res) => {
      try {
-        const newMovie = await MovieModel.create(req.body)
         console.log(req.body)
+        await Movie.create(req.body)
         res.redirect("/movies")
-    } catch (err) {
+    } catch (error) {
          res.redirect("/movies/create");
-         console.log("this POST-method is just not working!!", (err))
+         console.log("this POST-method is just not working!!", (error))
     }
  })
+
+// router.post('/create', async (req, res) => {
+//     try {
+//       await Movie.create(req.body)
+//       res.redirect('/movies')
+//     } catch (error) {
+//       console.log('Error creating movie: ', error)
+//       res.redirect('/movies/create')
+//     }
+//   })
 
 module.exports = router

@@ -1,9 +1,8 @@
 <h1>Movies</h1>
-<% allMovies.forEach (oneMovie => {  %>
-    <h3><%= oneMovie.title %></h3>
-    <p><%= oneMovie.genre %></p>
-    <p><%= oneMovie.plot %></p>
-    <p><%= oneMovie.plot %></p>
-
+<% allMovies.forEach (({title, genre, plot, cast}) => {  %>
+    <h3><%= title %></h3>
+    <p><%= genre %></p>
+    <p><%= plot %></p>
+    <p><%= cast %></p>
 <% }) %>
 
